@@ -15,11 +15,11 @@ import time
 # ============================================================
 # 2. VARIABLES EDITABLES (MODIFICA SOLO AQUÍ)
 # ============================================================
-alumnos = 5000
-materias = 500
+alumnos = 10000
+materias = 10000
 
-alumno_buscar = 900
-materia_buscar = 24
+alumno_buscar = 500
+materia_buscar = 500
 
 
 # ============================================================
