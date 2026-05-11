@@ -1,0 +1,50 @@
+import ordenamiento_interno as interno
+import ordenamiento_externo as externo
+
+class InterfazOrdenamiento:
+    def __init__(self, modo: str = "interno"):
+        """
+        Inicializa la interfaz de ordenamiento.
+        Args:
+            modo: "interno" o "externo"
+        """
+        if modo not in ["interno", "externo"]:
+            raise ValueError("Modo inválido. Usa 'interno' o 'externo'.")
+        self.modo = modo
+
+    def cargar_datos(self, archivo: str) -> list:
+        """
+        Carga datos desde un archivo de texto.
+        Cada línea debe contener un número o cadena.
+        """
+        with open(archivo, "r", encoding="utf-8") as f:
+            datos = [line.strip() for line in f if line.strip()]
+        # Convertir a enteros si es posible
+        try:
+            datos = [int(x) for x in datos]
+        except ValueError:
+            pass
+        return datos
+
+    def ordenar(self, datos: list, algoritmo: str = "quick_sort") -> list:
+        """
+        Ordena los datos usando el algoritmo elegido.
+        Args:
+            datos: lista de elementos
+            algoritmo: nombre del algoritmo (ej. "bubble_sort", "heap_sort")
+        """
+        if self.modo == "interno":
+            funcion = getattr(interno, algoritmo, None)
+        else:
+            funcion = getattr(externo, algoritmo, None)
+
+        if funcion is None:
+            raise ValueError(f"Algoritmo {algoritmo} no encontrado en {self.modo}.")
+        return funcion(datos)
+
+# Ejemplo de uso:
+if __name__ == "__main__":
+    interfaz = InterfazOrdenamiento(modo="interno")  # o "externo"
+    datos = interfaz.cargar_datos("datos.txt")       # archivo con miles de datos
+    resultado = interfaz.ordenar(datos, algoritmo="quick_sort")
+    print("Resultado ordenado:", resultado)
